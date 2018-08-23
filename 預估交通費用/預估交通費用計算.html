@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>預估交通費用計算</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <style>
+    .mapstyle {
+      width: 700px;
+      height: 500px;
+      border: 1px soild #000000;
+
+    }
+
+    .directionstyle {
+      width: 300px;
+      height: 500px;
+      float: left;
+    }
+  </style>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+    crossorigin="anonymous">
+</head>
+
+<body>
+  <div id="map" class="mapstyle">
+
+  </div>
+  <div id="drive"></div>
+  <div id="taxi"></div>
+  <div id="tran"></div>
+  <div id="direction" class="directiionstyle"></div>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBh-iOQRpdU0Crn_7fagzV_WUHM_IsYONM&callback=initMap">
+  </script>
+  <script>
+    var map;
+    var center = {
+      lat: 24.7571075,
+      lng: 120.952429
+    };
+    var point1 = null,
+      point2 = null;
+    var directionsService = null;
+    var directionsDisplay = null;
+
+    window.onload = function () {
+      map = new google.maps.Map(
+        document.getElementById('map'), {
+          center: center,
+          zoom: 15
+        }
+      );
+      directionsService = new google.maps.DirectionsService();
+      directionsDisplay = new google.maps.DirectionsRenderer();
+      directionsDisplay.setMap(map);
+      //directionsDisplay.setPanel(document.getElementById('direction'));
+      //directionsDisplay.setPanel(document.getElementById('direction'));
+      map.addListener("click", function (e) {
+
+        if (point1 != null && point2 != null) {
+          point1 = null;
+          point2 = null;
+        }
+        if (point1 == null) {
+          point1 = e.latLng.lat() + ',' + e.latLng.lng();
+          return;
+        }
+        if (point2 == null) {
+          point2 = e.latLng.lat() + ',' + e.latLng.lng();
+        }
+        console.log(point1);
+        console.log(point2);
+        if (point1 != null && point2 != null) {
+          directionsService.route({
+              origin: "中華大學",
+              destination: point2,
+              travelMode: 'DRIVING'
+            },
+            function (response, status) {
+              var drive = document.getElementById("drive");
+              var kfare = 0;
+              var array = response.routes[0].legs[0].steps;
+              for (var i = 0; i < array.length; i++) {
+                if (array[i].instructions.match('收費路段') != null) {
+
+                  kfare += parseFloat(array[i].distance.text);
+
+                }
+              }
+              console.log(kfare);
+              console.log(response);
+              drive.innerHTML = "開車: 需要的時間為" + response.routes[0].legs[0].duration.text + "&nbsp" + "總距離為" +
+                response.routes[0].legs[0].distance.text + "&nbsp" + "成本數據為" + Math.round((parseFloat(response.routes[
+                  0].legs[0].distance.text) - kfare) * 5 + kfare * 6.2) + "元";
+
+              if (status === 'OK') {
+                directionsDisplay.setDirections(response);
+              } else {
+                window.alert('Directions request failed due to ' + status);
+              }
+              
+
+            });
+
+
+        }
+        if (point1 != null && point2 != null) {
+          directionsService.route({
+              origin: "中華大學",
+              destination: point2,
+              travelMode: 'DRIVING'
+            },
+            function (response, status) {
+              var drive = document.getElementById("taxi");
+              console.log(response);
+              var add;
+
+              function count() {
+                if (parseFloat(response.routes[0].legs[0].distance.text) <= 1.5) {
+                  return add = 85;
+
+                } else if (parseFloat(response.routes[0].legs[0].distance.text) > 1.5) {
+                  return add = Math.round(85 + (parseFloat(response.routes[0].legs[0].distance.text) - 1.5) *
+                    1000 / 250 * 5);
+                } 
+              }
+
+
+
+              drive.innerHTML = "計程車: 需要的時間為" + response.routes[0].legs[0].duration.text + "&nbsp" + "總距離為" +
+                response.routes[0].legs[0].distance.text + "&nbsp" + "成本數據為" + count() + "元";
+
+
+              if (status === 'OK') {
+                directionsDisplay.setDirections(response);
+              } else {
+                window.alert('Directions request failed due to ' + status);
+              }
+            });
+        }
+
+        if (point1 != null && point2 != null) {
+          directionsService.route({
+              origin: "中華大學",
+              destination: point2,
+              travelMode: 'TRANSIT'
+            },
+            function (response, status) {
+              var drive = document.getElementById("tran");
+              console.log(response);
+              drive.innerHTML = "大眾運輸: 需要的時間為" + response.routes[0].legs[0].duration.text + "&nbsp" + "總距離為" +
+                response.routes[0].legs[0].distance.text + "&nbsp" + "成本數據為" + response.routes[0].fare.text +
+                "元";
+
+
+              if (status === 'OK') {
+                directionsDisplay.setDirections(response);
+              } else {
+                window.alert('Directions request failed due to ' + status);
+              }
+            });
+        }
+
+
+
+      })
+    }
+  </script>
+
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

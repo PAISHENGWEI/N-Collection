@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>生命靈數</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+        <style>
+        body{
+            font-family: "微軟正黑體"
+        }
+        </style>
+</head>
+
+<body style="padding:10em;background-color:bisque; font-family:Microsoft JhengHei;" >
+
+    <div><h2><strong>生命靈數</strong></h2></div>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-2">
+                <div class="form-group">
+                    <label for=""></label>
+                    <input type="text" class="form-control" name="" id="y" aria-describedby="helpId" placeholder="">
+                </div>
+            </div>
+            <div class="col-1 mt-4">
+               <h2>年</h2> 
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label for=""></label>
+                    <input type="text" class="form-control" name="" id="m" aria-describedby="helpId" placeholder="">
+
+                </div>
+            </div>
+            <div class="col-1 mt-4">
+               <h2>月</h2> 
+            </div>
+            <div class="col-2">
+                <div class="form-group">
+                    <label for=""></label>
+                    <input type="text" class="form-control" name="" id="d" aria-describedby="helpId" placeholder="">
+                </div>
+            </div>
+            <div class="col-1 mt-4">
+               <h2>日</h2> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button type="button" class="btn btn-primary" id="cmodCalc">分析</button>
+
+            </div>
+        </div>
+        <div class="row mt-5">
+            <h3><strong>結果</strong></h3>
+
+        </div>
+        <div class="row mt-5">
+            <h1 id="constellation"></h1>
+
+        </div>
+        <div class="row">
+            <h5 id="lifeComment"></h5>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="./js/main.js">
+    </script>
+    <script>
+        $(function () {
+            $("#cmodCalc").click(function () {
+                var y = $("#y").val();
+                var m = $("#m").val();
+                var d = $("#d").val();
+                var calculator = new NumerologyCalculator(y, m, d);
+                $.ajax({
+                    url: "https://gist.githubusercontent.com/regionbbs/a4633c99d4f3d73c41538134b0b62162/raw/9b81dd8ae2bbe0b088d54c2118e5eb2d1021313f/" +
+                        calculator.getAstrologyConstellationName() + ".json",
+                    type: "GET"
+                }).done(function (data) {
+                    var o = JSON.parse(data);
+                    $("#constellation").text(o.name);
+                    $("#lifeComment").text(o.lookup[calculator.getLifeNumerology()-1])
+                })
+            })
+
+
+        })
+    </script>
+
+
+</body>
+
+</html>

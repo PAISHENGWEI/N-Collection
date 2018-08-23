@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>行事曆</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+        td:hover {
+            background-color: rgb(37, 187, 179);
+        }
+
+        td {
+            
+            height: 90px;
+            text-align: left;
+        }
+
+        li:hover {
+            background-color: blueviolet;
+        }
+        body{
+            font-family: "微軟正黑體"
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/solid.css" integrity="sha384-29Ax2Ao1SMo9Pz5CxU1KMYy+aRLHmOu6hJKgWiViCYpz3f9egAJNwjnKGgr+BXDN"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/fontawesome.css" integrity="sha384-Lyz+8VfV0lv38W729WFAmn77iH5OSroyONnUva4+gYaQTic3iI2fnUKtDSpbVf0J"
+        crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row ">
+            <div class="col-2 " style="border:black;height:100px;">
+                <button type="button" class="btn btn-secondary mt-4" id="left">
+                    <<
+                </button>
+            </div>
+            <div class="col-8 text-center " style="border:black;height:100px;" id="mon">
+            </div>
+            <div class="col-2 text-right " style="border:black;height:100px;">
+                <button type="button" class="btn btn-secondary mt-4" id="right">
+                >>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" id="new">
+                新增
+            </button>
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">新增項目</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-2">
+                                    <h5>事件:</h5>
+                                </div>
+                                <div class="col-10 text-left">
+                                    <div class="" data-provide="">
+                                        <input type="text" class="form-control" id="intpu1">
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-th"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2 mt-4">
+                                    <h5>日期:</h5>
+                                </div>
+                                <div class="col-8">
+                                    <div class="form-group">
+                                        <label for=""></label>
+                                        <input type="date" class="form-control" name="" id="day" aria-describedby="helpId" placeholder="日期">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2 mt-4">
+                                    <h5>起始:</h5>
+                                </div>
+                                <div class="col-10">
+                                    <div class="form-group">
+                                        <label for=""></label>
+                                        <input type="time" class="form-control" name="" id="start" aria-describedby="helpId" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2 mt-4">
+                                    <h5>結束:</h5>
+                                </div>
+                                <div class="col-10">
+                                    <div class="form-group">
+                                        <label for=""></label>
+                                        <input type="time" class="form-control" name="" id="end" aria-describedby="helpId" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2 mt-4">
+                                    <h5>顏色:</h5>
+                                </div>
+                                <div class="col-10 ">
+                                    <div class="form-group row mt-4 ">
+                                    
+                                       <div class="col-10 ">
+                                         <input class="form-control " type="color" value="#563d7c" id="color" style="width: 30%;height: 50px;" >
+                                       </div>
+                               </div>      
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="Save">Save </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelId" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">修改項目</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-2">
+                                <h5>事件:</h5>
+                            </div>
+                            <div class="col-10 text-left">
+                                <div class="" data-provide="">
+                                    <input type="text" class="form-control" id="intpu2">
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-th"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2 mt-4">
+                                <h5>日期:</h5>
+                            </div>
+                            <div class="col-8">
+                                <div class="form-group">
+                                    <label for=""></label>
+                                    <input type="date" class="form-control" name="" id="day1" aria-describedby="helpId" placeholder="日期">
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2 mt-4">
+                                <h5>起始:</h5>
+                            </div>
+                            <div class="col-10">
+                                <div class="form-group">
+                                    <label for=""></label>
+                                    <input type="time" class="form-control" name="" id="start1" aria-describedby="helpId" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2 mt-4">
+                                <h5>結束:</h5>
+                            </div>
+                            <div class="col-10">
+                                <div class="form-group">
+                                    <label for=""></label>
+                                    <input type="time" class="form-control" name="" id="end1" aria-describedby="helpId" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2 mt-4">
+                                <h5>顏色:</h5>
+                            </div>
+                            <div class="col-10 ">
+                                
+                                <div class="form-group row mt-4 ">
+                                    
+                                       <div class="col-10 ">
+                                         <input class="form-control " type="color" value="#563d7c" id="color1"  >
+                                       </div>
+                               </div>      
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" id="modify" data-dismiss="modal">修改</button>
+                        <button type="button" class="btn btn-primary" id="del" data-dismiss="modal">刪除 </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table">
+            <tr class="text-center">
+                <th id="Sun">Sun</th>
+                <th id="Mon">Mon</th>
+                <th id="Tue">Tue</th>
+                <th id="Wed">Wed</th>
+                <th id="Thu">Thu</th>
+                <th id="Fri">Fri</th>
+                <th id="Sat">Sat</th>
+            </tr>
+        </table>
+        <table class="table table-bordered border-dark text-center" id="table">
+        </table>
+
+    </div>
+    <script type="text/javascript">
+        var table = document.getElementById("table");
+        var rightbt = document.getElementById("right");
+        var leftbt = document.getElementById("left");
+        var Save = document.getElementById("Save");
+        var modify = document.getElementById("modify");
+        var date = new Date();
+        var btn;
+        Save.onclick = function () {
+            var schedulekey = {
+                key: document.getElementById("day").value,
+                schedule: []
+            };
+            var type = {
+                fromHR: document.getElementById("start").value,
+                toHR: document.getElementById("end").value,
+                subject: document.getElementById("intpu1").value,
+                color: document.getElementById("color").value
+            }
+            console.log(schedulekey);
+
+            if (localStorage.getItem(document.getElementById("day").value) != null) {
+                var data = JSON.parse(localStorage.getItem(document.getElementById("day").value));
+                data.schedule.push(type);
+                localStorage.setItem(document.getElementById("day").value, data);
+            } else {
+                schedulekey.schedule.push(type);
+                localStorage.setItem(document.getElementById("day").value, JSON.stringify(schedulekey));
+            }
+
+        }
+        modify.onclick = function () {
+            var schedulekey = {
+                key: document.getElementById("day").value,
+                schedule: []
+            };
+            var type = {
+                fromHR: document.getElementById("start1").value,
+                toHR: document.getElementById("end1").value,
+                subject: document.getElementById("intpu2").value,
+                color: document.getElementById("color1").value
+            }
+            var newkey = this.value.split(",");
+            var data = JSON.parse(localStorage.getItem(newkey[0]));
+            data.schedule.splice(newkey[1], 1);
+            data.schedule.push(type);
+            localStorage.setItem(newkey[0],JSON.stringify(data));
+
+
+        }
+
+
+
+        function create() {
+            date.setDate(1);
+            var months = date.getMonth();
+            while (date.getDay() != 0) {
+                date.setDate(date.getDate() - 1);
+            }
+
+            for (var i = 0; i < 6; i++) {
+                var row = document.createElement("tr");
+                for (var j = 0; j < 7; j++) {
+
+                    var width = document.createElement("td");
+                    width.innerHTML = date.getDate();
+                    if (months != date.getMonth()) {
+                        width.style = "background-color:gray;";
+                    }
+                    var year = date.getFullYear();
+                    var month = (date.getMonth() < 10 ? '0' : '') + (date.getMonth() + 1);
+                    var day = (date.getDate() < 10 ? '0' : '') + (date.getDate());
+                    var times = year + "-" + month + "-" + day;
+                    var content = 0;
+                    console.log(times);
+                    if (JSON.parse(localStorage.getItem(times)) != null) {
+                        var ul = document.createElement("ul");
+                        ul.style = "list-style-type:none;padding-left:0px;";
+                        var data = JSON.parse(localStorage.getItem(times)).schedule;
+                        for (var item of data) {
+                            var li = document.createElement("li");
+                            li.id = times + "," + content;
+                            li.setAttribute("data-toggle", "modal");
+                            li.setAttribute("data-target", "#modelId");
+                            li.innerText = item.subject;
+                            li.onclick = function () {
+                                var newkey = this.id.split(",");
+                                var data1 = JSON.parse(localStorage.getItem(newkey[0]));
+                                var intpu2 = document.getElementById("intpu2");
+                                var day1 = document.getElementById("day1");
+                                var start1 = document.getElementById("start1");
+                                var end1 = document.getElementById("end1");
+                                var color1 = document.getElementById("color1");
+                                document.getElementById("del").setAttribute("value",this.id)
+                                document.getElementById("modify").setAttribute("value",this.id)
+
+                                intpu2.value = data1.schedule[newkey[1]].subject;
+                                day1.value = data1.key;
+                                start1.value = data1.schedule[newkey[1]].fromHR;
+                                end1.value = data1.schedule[newkey[1]].toHR;
+                                color1.value = data1.schedule[newkey[1]].color;
+
+                            }
+
+                            content++;
+                            ul.appendChild(li);
+                        }
+                        width.appendChild(ul);
+                    }
+
+                    date.setDate(date.getDate() + 1);
+
+                    row.appendChild(width);
+
+                }
+                table.appendChild(row);
+            }
+        }
+
+
+        function createmonth() {
+            var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September',
+                'October', 'November', 'December'
+            ];
+
+            var month = months[date.getMonth()];
+            var h1 = document.createElement("h1");
+            h1.innerText = month;
+            document.getElementById("mon").appendChild(h1);
+
+        }
+
+        function createyear() {
+            var year = date.getFullYear();
+            var h5 = document.createElement("h5");
+            h5.innerText = year;
+            document.getElementById("mon").appendChild(h5);
+        }
+        createmonth();
+        createyear()
+        create();
+
+        function monclean() {
+            while (mon.hasChildNodes()) {
+                mon.removeChild(mon.firstChild);
+            }
+        }
+
+        function clean() {
+            while (table.hasChildNodes()) {
+                table.removeChild(table.firstChild);
+            }
+        }
+        rightbt.onclick = function () {
+            clean();
+            monclean();
+            createmonth();
+            createyear();
+            create();
+        }
+        leftbt.onclick = function () {
+            clean();
+            monclean();
+            date.setMonth(date.getMonth() - 2);
+            createmonth();
+            createyear();
+            create();
+        }
+
+
+        document.getElementById("del").onclick = function () {
+            var newkey = this.value.split(",");
+            console.log(newkey);
+            var data2 = JSON.parse(localStorage.getItem(newkey[0]));
+            data2.schedule.splice(newkey[1], 1);
+            localStorage.setItem(newkey[0], JSON.stringify(data2));
+
+        }
+
+        /*var buttons = document.getElementsByTagName("td");
+        for (var i = 0; i < buttons.length; i++) {
+            var button = buttons[i];
+            button.onclick = function () {
+                btn = event.srcElement;
+                $('#exampleModal').modal('show');
+
+            }
+        };*/
+        /*var Save = document.getElementById("Save");
+        Save.onclick = function () {
+            var btnn = document.getElementById("intpu1").value
+            btn.innerText += "\n" + btnn;
+        }*/
+    </script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script>
+    </script>
+
+
+
+
+</body>
+
+</html>

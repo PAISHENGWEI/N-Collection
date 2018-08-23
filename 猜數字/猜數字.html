@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>猜數字</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+</head>
+
+<body style="font-family:Microsoft JhengHei;">
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-4 text-right ">
+                <button type="button" class="btn btn-success mt-3" id="start">開始</button>
+            </div>
+            <div class="col-4 text-center">
+                <button type="button" class="btn btn-danger mt-3" id="clean">放棄重來</button>
+            </div>
+            <div class="col-4 text-left">
+                <button type="button" class="btn btn-primary mt-3" id="lookans">看答案</button>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col">
+                <table class="table table-bordered border-dark" id="list">
+                       <span class="badge badge-danger" id="badge"></span> 
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for=""></label>
+                <input type="text" name="" id="input" class="form-control" placeholder="請輸入4個不同的數字" aria-describedby="helpId">
+                <button type="button" class="btn btn-secondary mt-3" id="gus">button</button>
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        var array = [];
+        var time = 0;
+        var num;
+        var ans = "";
+
+        function getRandom(max, min) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        while (time != 4) {
+            num = getRandom(9, 1);
+
+            function checkAdult(x) {
+                return x === num;
+            }
+            if (!array.some(checkAdult)) {
+                array.push(num);
+                time++;
+                ans = ans + num.toString();
+            }
+        }
+        var start =document.getElementById("start");
+        start.onclick=function(){
+            alert("請輸入四個不重複的數字")
+        }
+
+        var butgus = document.getElementById("gus");
+        butgus.onclick = function () {
+            var input = document.getElementById("input").value.toString();
+            var iA = 0;
+            var iB = 0;
+            for (var i = 0; i < 4; i++) {
+                var s1 = ans.substring(i, i + 1);
+                for (var j = 0; j < 4; j++) {
+                    var s2 = input.substring(j, j + 1);
+                    if (s1 == s2) {
+                        if (i == j) {
+                            iA++;
+                        } else {
+                            iB++;
+                        }
+                        break;
+                    }
+                }
+            }
+            var tr = document.createElement("tr")
+            var node = document.createElement("td");
+            var textnode = document.createTextNode(iA + "A" + iB + "B :" + input);
+            node.appendChild(textnode);
+            tr.appendChild(node);
+            document.getElementById("list").appendChild(tr);
+            if (iA === 4 && iB === 0) {
+                alert("恭喜過關");
+            }
+        }
+        function clean() {
+            while (list.hasChildNodes()) {
+                list.removeChild(list.firstChild);
+            }
+        }
+        var lookans = document.getElementById("lookans");
+        lookans.onclick = function () {
+            alert("答案是 : " + ans);
+        }
+        var clea = document.getElementById("clean");
+        clea.onclick = function () {
+            document.getElementById("list").value = clean();
+            document.getElementById("input").value = "";
+        }
+        console.log(ans);
+    </script>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
